@@ -15,6 +15,13 @@ Buksan ang link na lalabas (karaniwang http://localhost:5173).
 
 Para gumawa ng final files na ia-upload (sa Vercel, Netlify, o hosting): `npm run build`, at nasa `dist/` folder ang output.
 
+## Live site at auto-deploy
+
+- Website: https://buildison-react.vercel.app
+- Admin: https://buildison-react.vercel.app/#/admin
+
+Naka-connect ang Vercel sa GitHub repo na ito. Tuwing mag-`git push` sa `main`, kusang magde-deploy ang Vercel. Nasa Vercel project settings (Environment Variables) ang Supabase keys, hindi sa repo.
+
 ## Saan makikita ang ano
 
 ```
