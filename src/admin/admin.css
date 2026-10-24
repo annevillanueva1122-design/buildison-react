@@ -1,0 +1,31 @@
+/* Admin page: reuses the site's colors and buttons from index.css */
+.adm{min-height:100vh}
+.adm-nav{display:flex;align-items:center;gap:18px}
+.adm-nav .link{text-decoration:none;font-weight:600;font-size:15px;color:var(--muted)}
+.adm-nav .link:hover{color:var(--gold)}
+.adm-main{padding-block:48px 96px}
+.adm h1{font-size:clamp(30px,4.5vw,44px);font-weight:900;margin-top:10px}
+.adm h2{font-size:24px;font-weight:900}
+.adm-muted{color:var(--muted)}
+.adm-card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:clamp(18px,3vw,28px);display:grid;gap:18px}
+.adm-login{max-width:440px;margin:24px auto 0}
+.adm-plans{display:grid;gap:24px;margin-top:32px}
+.adm-plan-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.tag{font-family:var(--mono);font-size:11px;padding:3px 9px;border-radius:6px;background:var(--gold-tint);color:var(--gold)}
+.adm-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 18px}
+.adm-grid .wide{grid-column:1/-1}
+@media (max-width:700px){.adm-grid{grid-template-columns:1fr}}
+.field{display:grid;gap:6px;min-width:0}
+.field span{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.adm input,.adm textarea{width:100%;background:var(--ink);border:1px solid var(--line);border-radius:10px;color:var(--fg);padding:11px 13px;font:inherit;font-size:15px;line-height:1.45}
+.adm textarea{resize:vertical}
+.adm input:focus,.adm textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-tint)}
+.check{display:flex;align-items:center;gap:10px;font-weight:600;align-self:end;padding-bottom:10px}
+.adm .check input{width:18px;height:18px;accent-color:var(--gold)}
+.adm-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.btn.sm{padding:13px 24px;font-size:15px}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;filter:none}
+.adm-msg{font-size:14px;font-weight:600}
+.adm-msg.ok{color:var(--mint)}
+.adm-msg.err{color:#ff7b7b}
+.adm code{font-family:var(--mono);font-size:.9em;color:var(--gold)}
