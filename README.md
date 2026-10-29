@@ -1,88 +1,89 @@
 # Buildison Agency (React version)
 
-Ito ang React version ng Buildison HTML site. Pareho ang itsura, pero nakahati na sa **components** at nakahiwalay ang **content** sa isang data file.
+The React version of the Buildison HTML site. It looks the same, but the page is split into **components** and all the **content** lives in one data file.
 
-## Paano patakbuhin
+## Run it locally
 
-Kailangan ng [Node.js LTS](https://nodejs.org).
+Requires [Node.js LTS](https://nodejs.org).
 
 ```bash
 npm install
 npm run dev
 ```
 
-Buksan ang link na lalabas (karaniwang http://localhost:5173).
+Open the link it prints (usually http://localhost:5173).
 
-Para gumawa ng final files na ia-upload (sa Vercel, Netlify, o hosting): `npm run build`, at nasa `dist/` folder ang output.
+To build the production files (for Vercel, Netlify or any host): `npm run build`. The output goes to the `dist/` folder.
 
-## Live site at auto-deploy
+## Live site and auto-deploy
 
 - Website: https://buildison-react.vercel.app
 - Admin: https://buildison-react.vercel.app/#/admin
 
-Naka-connect ang Vercel sa GitHub repo na ito. Tuwing mag-`git push` sa `main`, kusang magde-deploy ang Vercel. Nasa Vercel project settings (Environment Variables) ang Supabase keys, hindi sa repo.
+Vercel is connected to this repo, so every `git push` to `main` deploys automatically. The Supabase keys live in the Vercel project settings (Environment Variables), not in the repo.
 
-## Saan makikita ang ano
+## Where things are
 
 ```
 src/
-├── data/site.js        ← LAHAT ng text, presyo, features, contact (dito ka mag-e-edit)
-├── App.jsx             ← Pagkakasunod-sunod ng mga section ng page
-├── index.css           ← Design (kapareho ng original CSS)
+├── data/site.js        ← ALL text, prices, features and contact details (edit here)
+├── App.jsx             ← Order of the page sections
+├── index.css           ← Design (same as the original CSS)
 ├── lib/motion.js       ← Helper: reduced motion / mouse detection
 └── components/
-    ├── Header.jsx      ← Logo + menu (useState para sa mobile menu)
+    ├── Header.jsx      ← Logo + menu (useState for the mobile menu)
     ├── Hero.jsx        ← Headline + rolling stats
-    ├── Marquee.jsx     ← Gumagalaw na listahan ng channels
-    ├── FeatureRow.jsx  ← Isang text + screen row (5 beses ginamit)
-    ├── Screens.jsx     ← Ang 5 mock app screens
+    ├── Marquee.jsx     ← Scrolling list of channels
+    ├── FeatureRow.jsx  ← One text + screen row (used 5 times)
+    ├── Screens.jsx     ← The 5 mock app screens
     ├── Unlimited.jsx   ← "Unlimited" + feature grid
     ├── HowItWorks.jsx  ← 3 steps
     ├── Pricing.jsx     ← Plans + annual/monthly toggle
     ├── Footer.jsx
     ├── ChatBubble.jsx
-    ├── CountUp.jsx     ← Number na nagbibilang pataas
+    ├── CountUp.jsx     ← Number that counts up
     ├── BackgroundFx.jsx, CursorTrail.jsx, SoundToggle.jsx ← Effects
-    ├── Cta.jsx, Logo.jsx ← Maliliit na reusable pieces
+    ├── Cta.jsx, Logo.jsx ← Small reusable pieces
 ```
 
-## Ano ang nagbago kumpara sa HTML
+## What changed from the HTML version
 
 | HTML version | React version |
 |---|---|
-| Kinopya nang 3 beses ang pricing card | Isang `<Plan>` component, galing sa `plans` array |
-| 5 halos magkaparehong feature rows | Isang `<FeatureRow>` component |
-| `document.getElementById(...)` at `classList.toggle` | `useState`, React na ang nag-a-update ng page |
-| Mano-manong nakasulat ang pipeline total ($9,950) | Kinukuwenta mula sa mga deal |
-| Para magpalit ng presyo, hanapin sa HTML | I-edit lang ang `src/data/site.js` |
+| Pricing card copied 3 times | One `<Plan>` component, rendered from the `plans` array |
+| 5 near-identical feature rows | One `<FeatureRow>` component |
+| `document.getElementById(...)` and `classList.toggle` | `useState`, React updates the page |
+| Pipeline total ($9,950) written by hand | Calculated from the deals |
+| To change a price, search the HTML | Edit `src/data/site.js` |
 
-Inalis ang GoHighLevel-specific na code (ang pag-alis ng padding ng builder), dahil hindi na ito kailangan sa standalone na React site.
+The GoHighLevel-specific code (removing the builder's padding) was dropped, since a standalone React site doesn't need it.
 
-## Mga PLACEHOLDER na dapat palitan
+## Placeholders to replace
 
-Lahat ay nasa `src/data/site.js`: checkout links, promo code, contact details, login/privacy/terms links. Para sa background music, tingnan ang `MUSIC_URL` sa `src/components/SoundToggle.jsx`.
+All of them are in `src/data/site.js`: checkout links, promo code, contact details, and login/privacy/terms links. For background music, see `MUSIC_URL` in `src/components/SoundToggle.jsx`.
 
-## Supabase (pricing galing sa database)
+## Supabase (pricing from the database)
 
-Kinukuha ang pricing plans sa Supabase `plans` table. Kung wala pang Supabase keys, o kung mag-fail ang connection, ang plans sa `src/data/site.js` ang ipapakita.
+Pricing plans are loaded from the Supabase `plans` table. If there are no Supabase keys yet, or the connection fails, the plans in `src/data/site.js` are shown instead.
 
-1. Patakbuhin ang [supabase/plans.sql](supabase/plans.sql) sa Supabase SQL Editor. Gagawin nito ang table, ang security (read-only para sa public), at ang laman.
-2. Kopyahin ang `.env.example` papuntang `.env` at ilagay ang Project URL at anon/publishable key.
-3. I-restart ang `npm run dev`.
-4. Para magpalit ng presyo: Supabase → Table Editor → `plans`, tapos i-refresh ang website.
+1. Run [supabase/plans.sql](supabase/plans.sql) in the Supabase SQL Editor. It creates the table, the security policy (read-only for the public) and the data.
+2. Copy `.env.example` to `.env` and add the Project URL and anon/publishable key.
+3. Restart `npm run dev`.
+4. To change a price: Supabase → Table Editor → `plans`, then refresh the website.
 
-Mga file: `src/lib/supabase.js` (connection) at `src/lib/usePlans.js` (kumukuha ng plans).
+Files: `src/lib/supabase.js` (connection) and `src/lib/usePlans.js` (loads the plans).
 
-## Admin page (pag-edit ng presyo mula sa website)
+## Admin page (edit prices from the website)
 
-Buksan ang **http://localhost:5173/#/admin**, mag-log in, i-edit ang plan, at pindutin ang **Save changes**.
+Open **http://localhost:5173/#/admin**, log in, edit a plan and click **Save changes**.
 
-Dalawang layer ng security:
+Two layers of security:
 1. **Login** (Supabase Auth, email + password)
-2. **`admins` table**: kahit naka-login, kailangang nakalista ang user dito para makapag-edit. Ito ang ginagawa ng [supabase/admin.sql](supabase/admin.sql).
+2. **`admins` table**: even when logged in, a user must be listed here to edit. This is set up by `supabase/admin.sql`.
 
-Para magdagdag ng admin:
-1. Supabase → **Authentication → Users → Add user → Create new user** (lagyan ng check ang "Auto Confirm User").
-2. SQL Editor: `insert into public.admins (user_id) select id from auth.users where email = 'email@nila.com';`
+To add an admin:
 
-Mga file: `src/admin/AdminApp.jsx` (login + access check), `src/admin/PlansEditor.jsx` (edit form), `src/admin/admin.css`.
+1. Supabase → Authentication → Users → Add user → Create new user (check "Auto Confirm User").
+2. SQL Editor: `insert into public.admins (user_id) select id from auth.users where email = 'their@email.com';`
+
+Files: `src/admin/AdminApp.jsx` (login + access check), `src/admin/PlansEditor.jsx` (edit form), `src/admin/admin.css`.
