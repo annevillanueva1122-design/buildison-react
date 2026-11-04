@@ -1,19 +1,27 @@
-import React, { useEffect, useState } from 'react'
+import React, { lazy, Suspense, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
-import AdminApp from './admin/AdminApp.jsx'
 import './index.css'
-import './admin/admin.css'
 
-// Tiny router: localhost:5173/#/admin shows the admin page, everything else shows the website
+// Keep admin UI and its styles out of the initial public-page download.
+const AdminApp = lazy(() => import('./admin/AdminApp.jsx'))
+
 function Root() {
   const [hash, setHash] = useState(window.location.hash)
+  const isAdmin = hash === '#/admin' || hash.startsWith('#/admin/')
   useEffect(() => {
     const onChange = () => setHash(window.location.hash)
     window.addEventListener('hashchange', onChange)
     return () => window.removeEventListener('hashchange', onChange)
   }, [])
-  return hash.startsWith('#/admin') ? <AdminApp /> : <App />
+  useEffect(() => {
+    document.title = isAdmin ? 'Admin | Buildison Agency' : 'Buildison Agency | Marketing Automation & CRM'
+  }, [isAdmin])
+  return (
+    <Suspense fallback={<main className="bld"><p className="wrap" role="status">Loading admin…</p></main>}>
+      {isAdmin ? <AdminApp /> : <App />}
+    </Suspense>
+  )
 }
 
 createRoot(document.getElementById('root')).render(
