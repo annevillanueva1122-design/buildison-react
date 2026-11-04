@@ -3,8 +3,10 @@ import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 
+
 // Keep admin UI and its styles out of the initial public-page download.
-const AdminApp = lazy(() => import('./admin/AdminApp.jsx'))
+const AdminApp = lazy(() => Promise.all([import('./admin/AdminApp.jsx'), import('./admin/admin.css')]).then(([module]) => module))
+
 
 function Root() {
   const [hash, setHash] = useState(window.location.hash)
@@ -24,8 +26,10 @@ function Root() {
   )
 }
 
+
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Root />
   </React.StrictMode>
 )
+
