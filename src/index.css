@@ -246,3 +246,12 @@ footer.foot{border-top:1px solid var(--line);padding-block:44px}
 @media (prefers-reduced-motion:reduce){
   .bld *,.bld *::before,.bld *::after{animation:none!important;transition:none!important}
 }
+
+/* Keep pricing cards within tablet and desktop viewports. */
+.plans{grid-template-columns:repeat(3,minmax(0,1fr))}
+.plan{min-width:0}
+.price{flex-wrap:wrap}
+.price .amt{font-size:clamp(36px,4vw,52px)}
+.plan .btn{white-space:normal;text-align:center}
+@media(max-width:1100px){.plans{grid-template-columns:1fr;max-width:520px;margin-inline:auto}}
+a:focus-visible,button:focus-visible{outline:3px solid var(--mint);outline-offset:5px}
